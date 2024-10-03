@@ -1,0 +1,14 @@
+#Animales
+cat - gato
+dog - perro
+horse - caballo
+
+#Colores
+red - rojo
+blue - azul
+green - verde
+
+#Frutas
+apple - manzana
+banana - plátano
+orange - naranja

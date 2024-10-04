@@ -1,41 +1,48 @@
 package principal;
 
-import servicio.JuegoTraductor;
-import servicio.JuegoTraductorImpl;
 import java.util.Scanner;
 
+import servicio.JuegoTraductor;
+import servicio.JuegoTraductorImpl;
+import utilidad.JuegoHandler;
+import utilidad.MenuHandler;
+
 public class App {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        JuegoTraductor juego = new JuegoTraductorImpl();
-        
-        boolean salir = false;
-        while (!salir) {
-            System.out.println("Bienvenido al Juego del Traductor");
-            System.out.println("1. Registrar jugadores");
-            System.out.println("2. Iniciar juego por turnos");
-            System.out.println("3. Iniciar juego por tiempo");
-            System.out.println("4. Salir");
-            System.out.print("Seleccione una opcion: ");
-            
-            int opcion = scanner.nextInt();
-            switch (opcion) {
-                case 1:
-                    juego.registrarJugadores();
-                    break;
-                case 2:
-                    juego.iniciarJuegoPorTurnos();
-                    break;
-                case 3:
-                    juego.iniciarJuegoPorTiempo();
-                    break;
-                case 4:
-                    salir = true;
-                    break;
-                default:
-                    System.out.println("Opción inválida, por favor intente de nuevo.");
-            }
-        }
-        scanner.close();
-    }
+
+	public static void main(String[] args) {
+
+		Scanner scanner = new Scanner(System.in);
+		JuegoTraductor juego = new JuegoTraductorImpl();
+		MenuHandler menuHandler = new MenuHandler();
+		JuegoHandler juegoHandler = new JuegoHandler();
+		boolean salir = false;
+
+		while (!salir) {
+			menuHandler.mostrarMenu();
+			System.out.print("Seleccione una opción: ");
+			String opcion = scanner.nextLine();
+
+			switch (opcion) {
+			case "1":
+				juegoHandler.registrarJugadores(juego, scanner);
+				break;
+			case "2":
+				juegoHandler.iniciarJuegoPorTurnos(juego);
+				break;
+			case "3":
+				juegoHandler.iniciarJuegoPorTiempo(juego, scanner);
+				break;
+			case "4":
+				System.out.println("Gracias por jugar. ¡Hasta luego!");
+				salir = true;
+				break;
+			default:
+				System.out.println("Opción inválida. Por favor, intente de nuevo.");
+				break;
+			}
+		}
+
+		scanner.close();
+	}
+	
 }// FINAL CLASS

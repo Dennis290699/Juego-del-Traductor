@@ -2,13 +2,117 @@
 cat - gato
 dog - perro
 horse - caballo
+elephant - elefante
+lion - león
+tiger - tigre
+bear - oso
+rabbit - conejo
+fish - pez
+wolf - lobo
 
 #Colores
 red - rojo
 blue - azul
 green - verde
+yellow - amarillo
+purple - morado
+black - negro
+white - blanco
+orange - naranja
+pink - rosa
+brown - marrón
 
 #Frutas
 apple - manzana
 banana - plátano
 orange - naranja
+grape - uva
+pineapple - piña
+strawberry - fresa
+watermelon - sandía
+lemon - limón
+pear - pera
+mango - mango
+
+#Verduras
+carrot - zanahoria
+potato - patata
+onion - cebolla
+tomato - tomate
+lettuce - lechuga
+cucumber - pepino
+garlic - ajo
+pepper - pimiento
+broccoli - brócoli
+spinach - espinaca
+
+#Partes del cuerpo
+head - cabeza
+arm - brazo
+leg - pierna
+hand - mano
+foot - pie
+eye - ojo
+nose - nariz
+ear - oreja
+mouth - boca
+back - espalda
+
+#Objetos
+table - mesa
+chair - silla
+book - libro
+pen - bolígrafo
+phone - teléfono
+computer - computadora
+key - llave
+bed - cama
+window - ventana
+door - puerta
+
+#Familia
+father - padre
+mother - madre
+brother - hermano
+sister - hermana
+son - hijo
+daughter - hija
+uncle - tío
+aunt - tía
+cousin - primo
+grandfather - abuelo
+
+#Días de la semana
+monday - lunes
+tuesday - martes
+wednesday - miércoles
+thursday - jueves
+friday - viernes
+saturday - sábado
+sunday - domingo
+
+#Meses del año
+january - enero
+february - febrero
+march - marzo
+april - abril
+may - mayo
+june - junio
+july - julio
+august - agosto
+september - septiembre
+october - octubre
+november - noviembre
+december - diciembre
+
+#Profesiones
+doctor - doctor
+teacher - maestro
+engineer - ingeniero
+nurse - enfermero
+chef - cocinero
+policeman - policía
+farmer - agricultor
+firefighter - bombero
+artist - artista
+mechanic - mecánico

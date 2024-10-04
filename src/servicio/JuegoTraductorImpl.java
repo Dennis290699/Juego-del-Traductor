@@ -1,11 +1,12 @@
 package servicio;
 
+import java.util.Scanner;
+
 import dominio.Categoria;
 import dominio.Jugador;
 import dominio.Palabra;
 import utilidad.ArchivoUtil;
 import utilidad.TiempoUtil;
-import java.util.Scanner;
 
 public class JuegoTraductorImpl implements JuegoTraductor {
 	private Jugador[] jugadores;
@@ -15,7 +16,6 @@ public class JuegoTraductorImpl implements JuegoTraductor {
 	private static final int MAX_JUGADORES = 10;
 	private static final int MAX_CATEGORIAS = 5;
 
-	// Constructor
 	public JuegoTraductorImpl() {
 		this.jugadores = new Jugador[MAX_JUGADORES];
 		this.categorias = new Categoria[MAX_CATEGORIAS];
@@ -24,69 +24,71 @@ public class JuegoTraductorImpl implements JuegoTraductor {
 		cargarCategoriasDesdeArchivo();
 	}
 
-	// Metodo para registrar jugadores
 	@Override
-	public void registrarJugadores() {
-		Scanner scanner = new Scanner(System.in);
-		System.out.print("Ingrese la cantidad de jugadores: ");
-		int numeroJugadores = scanner.nextInt();
-		scanner.nextLine(); // Consumir la nueva línea
-
-		for (int i = 0; i < numeroJugadores && cantidadJugadores < MAX_JUGADORES; i++) {
-			System.out.print("Ingrese el nombre del jugador " + (i + 1) + ": ");
-			String nombre = scanner.nextLine();
+	public void registrarJugador(String nombre) {
+		if (cantidadJugadores < MAX_JUGADORES) {
 			jugadores[cantidadJugadores++] = new Jugador(nombre);
+		} else {
+			System.out.println("No se pueden registrar más jugadores. Límite alcanzado.");
 		}
 	}
 
-	// Método para iniciar el juego por turnos
+	@Override
+	public boolean hayJugadores() {
+		return cantidadJugadores > 0;
+	}
+
 	@Override
 	public void iniciarJuegoPorTurnos() {
+		if (cantidadJugadores < 2) {
+			System.out.println("Se necesitan al menos dos jugadores para iniciar el juego por turnos.");
+			return; // Salir del método si no hay suficientes jugadores
+		}
+
 		Scanner scanner = new Scanner(System.in);
-		for (int i = 0; i < cantidadJugadores; i++) {
-			Jugador jugador = jugadores[i];
-			System.out.println("Turno del jugador: " + jugador.getNombre());
+		int rondasPorJugador = 3; // Cada jugador tiene 3 intentos en cada ronda
 
-			Categoria categoria = seleccionarCategoriaAleatoria();
-			Palabra palabra = categoria.obtenerPalabraAleatoria();
+		for (int ronda = 0; ronda < rondasPorJugador; ronda++) {
+			for (int i = 0; i < cantidadJugadores; i++) {
+				Jugador jugador = jugadores[i];
+				System.out.println("\nTurno del jugador: " + jugador.getNombre() + " (Ronda " + (ronda + 1) + ")");
 
-			if (palabra != null) {
-				String idioma = Math.random() < 0.5 ? "en" : "es";
-				String palabraMostrar = idioma.equals("en") ? palabra.getPalabraEs() : palabra.getPalabraEn();
-				System.out.print("Traduce la palabra '" + palabraMostrar + "' al "
-						+ (idioma.equals("en") ? "inglés" : "español") + ": ");
+				Categoria categoria = seleccionarCategoriaAleatoria();
+				Palabra palabra = categoria.obtenerPalabraAleatoria();
 
-				long inicio = System.currentTimeMillis();
-				String respuesta = scanner.nextLine();
-				long fin = System.currentTimeMillis();
+				if (palabra != null) {
+					String idioma = Math.random() < 0.5 ? "en" : "es";
+					String palabraMostrar = idioma.equals("en") ? palabra.getPalabraEs() : palabra.getPalabraEn();
+					System.out.print("Traduce la palabra '" + palabraMostrar + "' al "
+							+ (idioma.equals("en") ? "inglés" : "español") + ": ");
 
-				if (palabra.esTraduccionCorrecta(respuesta, idioma)) {
-					System.out.println("¡Correcto!");
-					jugador.aumentarPuntuacion();
-					jugador.agregarTiempo(fin - inicio);
+					long inicio = System.currentTimeMillis();
+					String respuesta = scanner.nextLine();
+					long fin = System.currentTimeMillis();
+
+					if (palabra.esTraduccionCorrecta(respuesta, idioma)) {
+						System.out.println("¡Correcto!");
+						jugador.aumentarPuntuacion();
+						jugador.agregarTiempo(fin - inicio);
+					} else {
+						System.out.println("Incorrecto. La respuesta correcta era: "
+								+ (idioma.equals("en") ? palabra.getPalabraEn() : palabra.getPalabraEs()));
+					}
 				} else {
-					System.out.println("Incorrecto. La respuesta correcta era: "
-							+ (idioma.equals("en") ? palabra.getPalabraEn() : palabra.getPalabraEs()));
+					System.out.println("No hay palabras disponibles en la categoría.");
 				}
-			} else {
-				System.out.println("No hay palabras disponibles en la categoría.");
 			}
 		}
 	}
 
-	// Método para iniciar el juego por tiempo
 	@Override
-	public void iniciarJuegoPorTiempo() {
+	public void iniciarJuegoPorTiempo(int tiempoLimite) {
 		if (cantidadCategorias == 0) {
 			System.out.println("No hay categorías disponibles para jugar.");
 			return; // Salir si no hay categorías disponibles
 		}
 
 		Scanner scanner = new Scanner(System.in);
-		System.out.print("Ingrese el tiempo límite por jugador (en segundos): ");
-		int tiempoLimite = scanner.nextInt();
-		scanner.nextLine(); // Consumir la nueva línea
-
 		for (int i = 0; i < cantidadJugadores; i++) {
 			Jugador jugador = jugadores[i];
 			System.out.println("Turno del jugador: " + jugador.getNombre());
@@ -133,7 +135,6 @@ public class JuegoTraductorImpl implements JuegoTraductor {
 		}
 	}
 
-	// Método para mostrar los resultados finales del juego
 	@Override
 	public void mostrarResultados() {
 		System.out.println("Resultados del juego:");
@@ -144,7 +145,6 @@ public class JuegoTraductorImpl implements JuegoTraductor {
 		}
 	}
 
-	// Método privado para seleccionar una categoría aleatoria
 	private Categoria seleccionarCategoriaAleatoria() {
 		if (cantidadCategorias == 0) {
 			return null; // No hay categorías disponibles
@@ -153,8 +153,6 @@ public class JuegoTraductorImpl implements JuegoTraductor {
 		return categorias[indiceAleatorio];
 	}
 
-	// Método privado para cargar las categorías desde un archivo usando
-	// `ArchivoUtil`
 	private void cargarCategoriasDesdeArchivo() {
 		Categoria[] categoriasCargadas = ArchivoUtil.cargarCategorias();
 		if (categoriasCargadas != null) {
@@ -165,4 +163,5 @@ public class JuegoTraductorImpl implements JuegoTraductor {
 			}
 		}
 	}
+	
 }// FINAL CLASS

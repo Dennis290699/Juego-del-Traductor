@@ -1,16 +1,15 @@
 package dominio;
 
 public class Palabra {
-	private String palabraEn; // Palabra en ingles
-	private String palabraEs; // Palabra en espaniol
+	
+	private String palabraEn;
+	private String palabraEs;
 
-	// Constructor
 	public Palabra(String palabraEn, String palabraEs) {
 		this.palabraEn = palabraEn;
 		this.palabraEs = palabraEs;
 	}
 
-	// Getters
 	public String getPalabraEn() {
 		return palabraEn;
 	}
@@ -19,7 +18,6 @@ public class Palabra {
 		return palabraEs;
 	}
 
-	// Setters
 	public void setPalabraEn(String palabraEn) {
 		this.palabraEn = palabraEn;
 	}
@@ -28,7 +26,6 @@ public class Palabra {
 		this.palabraEs = palabraEs;
 	}
 
-	// Metodo para verificar si la traducción es correcta
 	public boolean esTraduccionCorrecta(String palabra, String idioma) {
 		if (idioma.equalsIgnoreCase("es")) {
 			return palabra.equalsIgnoreCase(palabraEs);
@@ -37,4 +34,5 @@ public class Palabra {
 		}
 		return false;
 	}
+
 }// FINAL CLASS
